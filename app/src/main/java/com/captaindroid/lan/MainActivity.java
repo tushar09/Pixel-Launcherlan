@@ -303,8 +303,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_MOVE){
-            posX = (int) event.getX();
-            posY = (int) event.getY();
+            posX = (int) event.getX() - 200;
+            posY = (int) event.getY() - 300;
 
             if(desktopRecyclerView != null && binding.ivFloat.getVisibility() == View.VISIBLE){
                 if(desktopRecyclerView.findChildViewUnder(posX, posY) != null){
@@ -323,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(v != null){
-            v.setX(event.getX());
-            v.setY(event.getY());
+            v.setX(event.getX() - 200);
+            v.setY(event.getY() - 300);
         }
         return super.dispatchTouchEvent(event);
     }

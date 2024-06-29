@@ -70,6 +70,63 @@ public class AppListAdapter extends RecyclerView.Adapter{
 
                 }
             });
+
+            h.binding.ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    MainActivity.ma.vibe.vibrate(20);
+                    xPos = MainActivity.ma.posX;
+                    yPos = MainActivity.ma.posY;
+                    MainActivity.ma.appDrawerCanScroll = false;
+
+                    popup = new PopupMenu(context, v);
+                    popup.getMenuInflater().inflate(R.menu.pop_up, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+
+                            return true;
+                        }
+                    });
+                    popup.show();
+                    popupDismissed = false;
+                    return false;
+                }
+            });
+
+            h.binding.ivIcon.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_UP){
+                        xPos = 0;
+                        yPos = 0;
+                        MainActivity.ma.appDrawerCanScroll = true;
+                        MainActivity.ma.bottomSheetBehavior.setDraggable(true);
+                        MainActivity.ma.binding.ivFloat.setVisibility(View.GONE);
+                    }else {
+                        if(xPos != 0){
+                            int difx = Math.abs(Math.abs(Math.abs(xPos) - Math.abs(MainActivity.ma.posX)));
+                            int difY = Math.abs(Math.abs(Math.abs(yPos) - Math.abs(MainActivity.ma.posY)));
+                            if(difx > 30 || difY > 30){
+                                if(popupDismissed == false){
+                                    popupDismissed = true;
+                                    popup.dismiss();
+                                    MainActivity.ma.binding.ivIconFront.setImageBitmap(applIst.get(position).getBackG());
+                                    MainActivity.ma.binding.ivIconBack.setImageBitmap(applIst.get(position).getForG());
+                                    MainActivity.ma.binding.ivFloat.setVisibility(View.VISIBLE);
+                                    MainActivity.ma.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                                    MainActivity.ma.bottomSheetBehavior.setDraggable(false);
+                                    Log.e("diff", difx + "pop" + difY);
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    return false;
+                }
+            });
         }else {
             Log.e("type", holder.getItemViewType() + "");
             HolderCircle h = (HolderCircle) holder;
