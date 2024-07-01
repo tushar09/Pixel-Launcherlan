@@ -55,7 +55,7 @@ public class PagerAdapter extends RecyclerView.Adapter<PagerAdapter.ViewHolder>{
 
         ArrayList<DesktopAppModel> dp = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            dp.add(new DesktopAppModel(false));
+            dp.add(new DesktopAppModel(true));
         }
         holder.binding.rvApp.setAdapter(new DesktopAppListAdapter(context, dp));
         holder.binding.rvApp.setTag(dp);

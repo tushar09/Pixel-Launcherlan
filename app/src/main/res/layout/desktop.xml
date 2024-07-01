@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/_50sdp"
         android:layout_marginLeft="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_100sdp"
+        android:layout_marginBottom="@dimen/_120sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView

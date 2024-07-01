@@ -3,6 +3,7 @@
     package="com.captaindroid.lan">
 
     <permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <queries>
@@ -19,10 +20,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:stateNotNeeded="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Material">
+        <activity
+            android:name=".test.TestViewActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <service
-            android:exported="true"
             android:name=".services.NotificationService"
+            android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -31,16 +44,10 @@
         </service>
 
         <activity
-            android:theme="@style/Material"
+            android:name=".MainActivity"
             android:exported="true"
-            android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/Material">
 
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
