@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,14 +19,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Holder extends RelativeLayout {
 
-    private int [] x = new int[]{216, 432, 648, 864, 1080};
-    private int [] y = new int[]{416, 832, 1248, 1664, 2080};
+    private int [] x = new int[]{0, 216, 432, 648, 864};
+    private int [] y = new int[]{0, 416, 832, 1248, 1664};
 
     private int xFact = 20;
     private int yFact = 40;
 
     private int xPos;
     private int yPos;
+
+    int finalx;
+    int finaly;
+
     private AppPlaceSuggestionBinding floater;
 
     public Holder(Context context) {
@@ -167,39 +172,39 @@ public class Holder extends RelativeLayout {
 
     public void showSuggestionPosition(int x, int y) {
 
-        int finalx = x;
-        int finaly = y;
-
         floater.getRoot().setVisibility(VISIBLE);
         RelativeLayout.LayoutParams lp = (LayoutParams) floater.getRoot().getLayoutParams();
 
-        if(finalx > 0 && finalx < xFact){
-            finalx = 0;
-        }else if(finalx > 216 - xFact && finalx < 216 + xFact){
-            finalx = 216;
-        }else if(finalx > (216 * 2) - xFact && finalx < (216 * 2) + xFact){
-            finalx = 216 * 2;
-        }else if(finalx > (216 * 3) - xFact && finalx < (216 * 3) + xFact){
-            finalx = 216 * 3;
-        }else if(finalx > (216 * 4) - xFact && finalx < (216 * 4) + xFact){
-            finalx = 216 * 4;
-        }else if(finalx > (216 * 5) - xFact){
-            finalx = 216 * 5;
-        }
+//        if(finalx > 0 && finalx < xFact){
+//            finalx = 0;
+//        }else if(finalx > 216 - xFact && finalx < 216 + xFact){
+//            finalx = 216;
+//        }else if(finalx > (216 * 2) - xFact && finalx < (216 * 2) + xFact){
+//            finalx = 216 * 2;
+//        }else if(finalx > (216 * 3) - xFact && finalx < (216 * 3) + xFact){
+//            finalx = 216 * 3;
+//        }else if(finalx > (216 * 4) - xFact && finalx < (216 * 4) + xFact){
+//            finalx = 216 * 4;
+//        }else if(finalx > (216 * 5) - xFact){
+//            finalx = 216 * 5;
+//        }
+//
+//        if(finaly > 0 && finaly < yFact){
+//            finaly = 0;
+//        }else if(finaly > 416 - yFact && finaly < 416 + yFact){
+//            finaly = 416;
+//        }else if(finaly > (416 * 2) - yFact && finaly < (416 * 2) + yFact){
+//            finaly = 416 * 2;
+//        }else if(finaly > (416 * 3) - yFact && finaly < (416 * 3) + yFact){
+//            finaly = 416 * 3;
+//        }else if(finaly > (416 * 4) - yFact && finaly < (416 * 4) + yFact){
+//            finaly = 416 * 4;
+//        }else if(finaly > (416 * 5) - yFact){
+//            finaly = 416 * 5;
+//        }
 
-        if(finaly > 0 && finaly < yFact){
-            finaly = 0;
-        }else if(finaly > 416 - yFact && finaly < 416 + yFact){
-            finaly = 416;
-        }else if(finaly > (416 * 2) - yFact && finaly < (416 * 2) + yFact){
-            finaly = 416 * 2;
-        }else if(finaly > (416 * 3) - yFact && finaly < (416 * 3) + yFact){
-            finaly = 416 * 3;
-        }else if(finaly > (416 * 4) - yFact && finaly < (416 * 4) + yFact){
-            finaly = 416 * 4;
-        }else if(finaly > (416 * 5) - yFact){
-            finaly = 416 * 5;
-        }
+        finalx = getClosestX(x);
+        finaly = getClosetY(y);
 
 
         lp.setMargins(finalx, finaly, 0, 0);
@@ -234,5 +239,10 @@ public class Holder extends RelativeLayout {
         }
         int theNumber = y[idx];
         return theNumber;
+    }
+
+    public Pair<Integer, Integer> getChoosenPositionLocation(){
+        floater.getRoot().setVisibility(View.GONE);
+        return new Pair<>(finalx, finaly);
     }
 }

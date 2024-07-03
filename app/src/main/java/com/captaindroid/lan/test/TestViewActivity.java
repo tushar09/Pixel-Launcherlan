@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,9 +52,18 @@ public class TestViewActivity extends AppCompatActivity {
         binding.holder.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    Pair<Integer, Integer> p = binding.holder.getChoosenPositionLocation();
+                    FrameLayout.LayoutParams lp = ((FrameLayout.LayoutParams) binding.fab.getLayoutParams());
+                    lp.setMargins(p.first, p.second, 0, 0);
+                    binding.fab.setLayoutParams(lp);
+                    return true;
+                }else if(event.getAction() == MotionEvent.ACTION_MOVE){
                     //Log.e("cool", event.getX() + " " + event.getY());
-                    binding.holder.showSuggestionPosition((int) (event.getX() - 200), (int) (event.getY() - 300));
+                    FrameLayout.LayoutParams lp = ((FrameLayout.LayoutParams) binding.fab.getLayoutParams());
+                    lp.setMargins((int) (event.getX() - 100), (int) (event.getY() - 200), 0, 0);
+                    binding.fab.setLayoutParams(lp);
+                    binding.holder.showSuggestionPosition((int) (event.getX() - 100), (int) (event.getY() - 200));
                 }
 
                 return true;
