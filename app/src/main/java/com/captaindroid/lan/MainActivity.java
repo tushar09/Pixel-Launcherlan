@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -23,15 +22,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.captaindroid.lan.adapter.PagerAdapter;
 import com.captaindroid.lan.interfaces.ItemFinder;
+import com.captaindroid.lan.views.DeskTopper;
 import com.captaindroid.lan.utils.GridLayoutManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -44,7 +43,6 @@ import com.captaindroid.lan.adapter.AppListAdapter;
 import com.captaindroid.lan.databinding.ActivityMainBinding;
 import com.captaindroid.lan.models.AppModel;
 import com.captaindroid.lan.views.SpacesItemDecoration;
-import com.google.android.material.card.MaterialCardView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
     private GridLayoutManager gridLayoutManager;
 
-    private NotificationReceiver nReceiver;
+    //private NotificationReceiver nReceiver;
 
     public BottomSheetBehavior bottomSheetBehavior;
     public Vibrator vibe;
     public RecyclerView desktopRecyclerView;
+
+    private DeskTopper h;
+    private Pair<Integer, Integer> updatedAppLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +110,10 @@ public class MainActivity extends AppCompatActivity {
         });
         //binding.mainHolder.pager.setUserInputEnabled(false);
 
-        nReceiver = new NotificationReceiver();
+        //nReceiver = new NotificationReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-        registerReceiver(nReceiver, filter);
+        //registerReceiver(nReceiver, filter);
 
 
         gridLayoutManager = new GridLayoutManager(this, 5);
@@ -184,6 +185,15 @@ public class MainActivity extends AppCompatActivity {
 //        binding.container.iv4.setImageDrawable(appList.get(3).getIcon());
 //        binding.container.iv5.setImageDrawable(appList.get(4).getIcon());
 
+        //h = binding.mainHolder.pager.getChildAt(binding.mainHolder.pager.getCurrentItem()).findViewById(R.id.desk);
+        binding.mainHolder.pager.post(new Runnable() {
+            @Override
+            public void run() {
+                h = ((RecyclerView)binding.mainHolder.pager.getChildAt(0)).getLayoutManager().findViewByPosition(binding.mainHolder.pager.getCurrentItem()).findViewById(R.id.desk);
+            }
+        });
+
+        Log.e("current item", binding.mainHolder.pager.getCurrentItem() + " fdasdf");
     }
 
     private List<AppModel> getAppList() {
@@ -260,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        unregisterReceiver(nReceiver);
+        //unregisterReceiver(nReceiver);
         super.onStop();
     }
 
@@ -274,13 +284,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class NotificationReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String temp = intent.getStringExtra("notification_event");
-
-        }
+    public void setAppDesktopPosition(AppModel appModel) {
+        h.setAppPosition(appModel, updatedAppLocation);
     }
+
+//    class NotificationReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String temp = intent.getStringExtra("notification_event");
+//
+//        }
+//    }
 
     class Pager extends FragmentPagerAdapter {
 
@@ -302,19 +316,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+//        Log.e("asdf", event.getX() + " " + event.getY());
         if(event.getAction() == MotionEvent.ACTION_MOVE){
             posX = (int) event.getX() - 200;
             posY = (int) event.getY() - 300;
-
-            if(desktopRecyclerView != null && binding.ivFloat.getVisibility() == View.VISIBLE){
-                if(desktopRecyclerView.findChildViewUnder(posX, posY) != null){
-                    View v = desktopRecyclerView.findChildViewUnder(posX, posY);
-                    ((ItemFinder)desktopRecyclerView.getAdapter()).findItem((Integer) ((MaterialCardView)v.findViewById(R.id.cv)).getTag());
-                    Log.e("Touch", "not null");
-                }else{
-                    Log.e("Touch", "null");
-                    ((ItemFinder)desktopRecyclerView.getAdapter()).findItem(-1);
-                }
+//
+//            if(desktopRecyclerView != null && binding.ivFloat.getVisibility() == View.VISIBLE){
+//                if(desktopRecyclerView.findChildViewUnder(posX, posY) != null){
+//                    View v = desktopRecyclerView.findChildViewUnder(posX, posY);
+//                    ((ItemFinder)desktopRecyclerView.getAdapter()).findItem((Integer) ((MaterialCardView)v.findViewById(R.id.cv)).getTag());
+//                    Log.e("Touch", "not null");
+//                }else{
+//                    Log.e("Touch", "null");
+//                    ((ItemFinder)desktopRecyclerView.getAdapter()).findItem(-1);
+//                }
+//            }
+            if(h != null){
+                updatedAppLocation = h.showSuggestionPosition((int) (event.getX() - 100), (int) (event.getY() - 200));
+            }else{
+                Log.e("H null", "yes");
             }
         }else if(event.getAction() == MotionEvent.ACTION_UP){
             if(desktopRecyclerView != null){

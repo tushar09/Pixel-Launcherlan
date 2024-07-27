@@ -6,7 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.captaindroid.lan.views.DeskTopper
+        android:id="@+id/desk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.google.android.material.card.MaterialCardView
+        android:visibility="gone"
         app:strokeColor="#BDD4F6"
         app:cardCornerRadius="@dimen/_10sdp"
         app:strokeWidth="@dimen/_2sdp"
@@ -19,10 +25,7 @@
         android:layout_marginBottom="@dimen/_120sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:background="#80BDD4F6"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvApp"
             android:layout_width="match_parent"

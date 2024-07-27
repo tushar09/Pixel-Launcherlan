@@ -38,30 +38,32 @@ public class PagerAdapter extends RecyclerView.Adapter<PagerAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.rvApp.setLayoutManager(new GridLayoutManager(context, 5));
-        ViewTreeObserver vto = holder.binding.getRoot().getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.binding.getRoot().getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    holder.binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-                Log.e("height", holder.binding.cvRvAppsHolder.getHeight() + " asdf");
+//        holder.binding.rvApp.setLayoutManager(new GridLayoutManager(context, 5));
+//        ViewTreeObserver vto = holder.binding.getRoot().getViewTreeObserver();
+//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+//                    holder.binding.getRoot().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                } else {
+//                    holder.binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                }
+//                Log.e("height", holder.binding.cvRvAppsHolder.getHeight() + " asdf");
+//
+//            }
+//        });
+//
+//        ArrayList<DesktopAppModel> dp = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            dp.add(new DesktopAppModel(true));
+//        }
+//        holder.binding.rvApp.setAdapter(new DesktopAppListAdapter(context, dp));
+//        holder.binding.rvApp.setTag(dp);
+//        if(MainActivity.ma.desktopRecyclerView == null){
+//            MainActivity.ma.desktopRecyclerView = holder.binding.rvApp;
+//        }
 
-            }
-        });
 
-        ArrayList<DesktopAppModel> dp = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            dp.add(new DesktopAppModel(true));
-        }
-        holder.binding.rvApp.setAdapter(new DesktopAppListAdapter(context, dp));
-        holder.binding.rvApp.setTag(dp);
-        if(MainActivity.ma.desktopRecyclerView == null){
-            MainActivity.ma.desktopRecyclerView = holder.binding.rvApp;
-        }
 
     }
 
