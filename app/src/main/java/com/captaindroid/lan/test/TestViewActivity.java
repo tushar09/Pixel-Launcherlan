@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,13 +16,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.captaindroid.lan.R;
 import com.captaindroid.lan.databinding.ActivityTestViewBinding;
-import com.captaindroid.lan.interfaces.ItemFinder;
-import com.captaindroid.lan.utils.GridLayoutManager;
-import com.google.android.material.card.MaterialCardView;
-
-import java.util.ArrayList;
 
 public class TestViewActivity extends AppCompatActivity {
 
@@ -53,7 +46,7 @@ public class TestViewActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    Pair<Integer, Integer> p = binding.holder.getChoosenPositionLocation();
+                    Pair<Integer, Integer> p = binding.holder.getChosenPositionLocation();
                     FrameLayout.LayoutParams lp = ((FrameLayout.LayoutParams) binding.fab.getLayoutParams());
                     lp.setMargins(p.first, p.second, 0, 0);
                     binding.fab.setLayoutParams(lp);

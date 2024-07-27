@@ -169,7 +169,10 @@ public class AppListAdapter extends RecyclerView.Adapter{
                         MainActivity.ma.appDrawerCanScroll = true;
                         MainActivity.ma.bottomSheetBehavior.setDraggable(true);
                         MainActivity.ma.binding.ivFloat.setVisibility(View.GONE);
+                        Log.e("diff", "dones ");
+                        MainActivity.ma.setAppDesktopPosition(applIst.get(position));
                     }else {
+
                         if(xPos != 0){
                             int difx = Math.abs(Math.abs(Math.abs(xPos) - Math.abs(MainActivity.ma.posX)));
                             int difY = Math.abs(Math.abs(Math.abs(yPos) - Math.abs(MainActivity.ma.posY)));

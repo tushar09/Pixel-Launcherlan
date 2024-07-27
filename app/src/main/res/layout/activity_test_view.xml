@@ -25,7 +25,7 @@
             android:layout_height="?actionBarSize" />
     </androidx.cardview.widget.CardView>
 
-    <com.captaindroid.lan.test.Holder
+    <com.captaindroid.lan.views.DeskTopper
         android:id="@+id/holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

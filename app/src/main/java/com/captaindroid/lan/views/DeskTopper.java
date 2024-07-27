@@ -1,7 +1,8 @@
-package com.captaindroid.lan.test;
+package com.captaindroid.lan.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
@@ -11,13 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.captaindroid.lan.databinding.AppPlaceSuggestionBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.captaindroid.lan.databinding.RowAppBinding;
+import com.captaindroid.lan.models.AppModel;
+import com.captaindroid.lan.test.TestViewActivity;
 
-public class Holder extends RelativeLayout {
+public class DeskTopper extends RelativeLayout {
+
+    //file renamed
 
     private int [] x = new int[]{0, 216, 432, 648, 864};
     private int [] y = new int[]{0, 416, 832, 1248, 1664};
@@ -33,22 +37,22 @@ public class Holder extends RelativeLayout {
 
     private AppPlaceSuggestionBinding floater;
 
-    public Holder(Context context) {
+    public DeskTopper(Context context) {
         super(context);
         init(null);
     }
 
-    public Holder(Context context, @Nullable AttributeSet attrs) {
+    public DeskTopper(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public Holder(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DeskTopper(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
-    public Holder(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DeskTopper(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
@@ -170,7 +174,7 @@ public class Holder extends RelativeLayout {
         Log.e("width", w + "");
     }
 
-    public void showSuggestionPosition(int x, int y) {
+    public Pair<Integer, Integer> showSuggestionPosition(int x, int y) {
 
         floater.getRoot().setVisibility(VISIBLE);
         RelativeLayout.LayoutParams lp = (LayoutParams) floater.getRoot().getLayoutParams();
@@ -209,7 +213,14 @@ public class Holder extends RelativeLayout {
 
         lp.setMargins(finalx, finaly, 0, 0);
         floater.getRoot().setLayoutParams(lp);
+
+        return new Pair<Integer, Integer>(finalx, finaly);
+
         //((RelativeLayout.LayoutParams)floater.getRoot().getLayoutParams()).setMargins(finalI + ((216 - appPlaceSuggestionBinding.getRoot().getHeight()) / 2), (216 - appPlaceSuggestionBinding.getRoot().getHeight()) / 2, 0, 0);
+
+    }
+
+    public void finalizePosition(){
 
     }
 
@@ -241,8 +252,24 @@ public class Holder extends RelativeLayout {
         return theNumber;
     }
 
-    public Pair<Integer, Integer> getChoosenPositionLocation(){
+    public Pair<Integer, Integer> getChosenPositionLocation(){
         floater.getRoot().setVisibility(View.GONE);
         return new Pair<>(finalx, finaly);
+    }
+
+    public void setAppPosition(AppModel appModel, Pair<Integer, Integer> updatedAppLocation) {
+        RowAppBinding binding = RowAppBinding.inflate(LayoutInflater.from(getContext()));
+
+        binding.ivIcon.setImageBitmap(appModel.getBitmap());
+        binding.tvName.setText(appModel.getName());
+        binding.tvName.setTextColor(Color.WHITE);
+
+        RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp2.setMargins(updatedAppLocation.first, updatedAppLocation.second, 0, 0);
+        binding.getRoot().setLayoutParams(lp2);
+        addView(binding.getRoot());
+
     }
 }
